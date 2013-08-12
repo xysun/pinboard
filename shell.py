@@ -1,10 +1,10 @@
 # interactive shell
-import sqlite3, sys
+import sqlite3, sys, os
 from datetime import date
 
 def display(conn):
     c = conn.cursor()
-    print("your sql query:")
+    print("your sql query (default select *) :")
     sql = input()
     if len(sql) == 0: #default
         sql = 'select * from records' 
@@ -15,6 +15,7 @@ def display(conn):
 
     with open('index.md', 'w') as f:
         pre_link = ""
+        f.write("Query: " + sql + '\n')
         for row in c:
             date = row[1]
             link = row[2]
@@ -26,7 +27,8 @@ def display(conn):
             if not link == pre_link: # avoid duplicates
                 f.write(line)
                 pre_link = link
-    
+    # open in chrome
+    os.system('open -a Google\ Chrome index.md')
 
 def add(conn):
     '''

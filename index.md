@@ -1,9 +1,6 @@
+Query: select * from records where tag = 'parse'
 
 [parsing with derivatives](http://maniagnosis.crsr.net/p/parsing-with-derivatives.html)
-2013-08-12
-
-
-[webgl fundamentals](http://greggman.github.io/webgl-fundamentals/)
 2013-08-12
 
 
