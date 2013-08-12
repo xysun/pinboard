@@ -2,8 +2,14 @@ This is my local 'pinterest' collection, a tag-based bookmark system using pytho
 
 It works through Python script and sqlite database.
 
-To add a record, run `python3 shell.py add`. 
+### Usage:
 
-Run `sqlite3 bookmarks.db` to enter database interactive mode.
+`python3 shell.py add` : add a record.
+
+`sqlite3 bookmarkds.db` : enter database interactive mode.
+
+`python3 shell.py display` : generate `index.md` file. 
+
+
 
 Work in progress, more interactive scripts to be added. 
