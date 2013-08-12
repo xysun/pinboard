@@ -2,6 +2,32 @@
 import sqlite3, sys
 from datetime import date
 
+def display(conn):
+    c = conn.cursor()
+    print("your sql query:")
+    sql = input()
+    if len(sql) == 0: #default
+        sql = 'select * from records' 
+    if not sql.lstrip().upper().startswith('SELECT * '):
+        print('only support SELECT * ')
+        sys.exit(2)
+    c.execute(sql)
+
+    with open('index.md', 'w') as f:
+        pre_link = ""
+        for row in c:
+            date = row[1]
+            link = row[2]
+            title = row[3]
+            description = row[4]
+            line = '\n[' + title + '](' + link + ')\n'
+            line += date + '\n'
+            line += description + '\n'
+            if not link == pre_link: # avoid duplicates
+                f.write(line)
+                pre_link = link
+    
+
 def add(conn):
     '''
     add a record 
@@ -36,14 +62,16 @@ def add(conn):
 
 def main():
     if len(sys.argv) < 2:
-        print("usage: python3 shell.py [ADD|]", file = sys.stderr)
+        print("usage: python3 shell.py [ADD|DISPLAY]", file = sys.stderr)
         sys.exit(2)
 
     conn = sqlite3.connect('bookmarks.db')
     
     if sys.argv[1].upper() == 'ADD':
         add(conn)
-    
+    elif sys.argv[1].upper() == 'DISPLAY':
+        display(conn)
+
     conn.close()
 
 if __name__ == '__main__':
