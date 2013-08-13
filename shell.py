@@ -1,43 +1,78 @@
-# interactive shell
 import sqlite3, sys, os
 from datetime import date
 
 def display(conn):
+    
+    def buildline(link, title, date, description, tags):
+        line = '\n<p class="record">\n<a href="' + link + '">' + title + '</a>\n'
+        line += date + '\n'
+        for tag in tags:
+            line += '[' + tag + '] '
+        line += '\n'
+        if len(description) > 0:
+            line += '\n' + description + '\n'
+        line += '</p>\n'
+        return line
+
+    head = '''
+<!DOCTYPE HTML>
+<html>
+<body>
+    '''
+    
+    footer = '''
+</body>
+</html>
+    '''
+    
     c = conn.cursor()
     print("your sql query (default select *) :")
     sql = input()
     if len(sql) == 0: #default
-        sql = 'select * from records' 
+        sql = 'select * from records order by time desc' 
     if not sql.lstrip().upper().startswith('SELECT * '):
         print('only support SELECT * ')
         sys.exit(2)
     c.execute(sql)
+    
+    fr = c.__next__()
+    link = fr[2]
+    date = fr[1]
+    title = fr[3]
+    description  = fr[4]
+    tags = set([fr[5]])
 
-    with open('index.md', 'w') as f:
-        pre_link = ""
-        f.write("Query: " + sql + '\n')
+    with open('index.html', 'w') as f:
+        f.write(head)
+        f.write("\nQuery: " + sql + '\n')
         for row in c:
-            date = row[1]
-            link = row[2]
-            title = row[3]
-            description = row[4]
-            line = '\n[' + title + '](' + link + ')\n'
-            line += date + '\n'
-            line += description + '\n'
-            if not link == pre_link: # avoid duplicates
+            if row[2] == link: # same records
+                tags.add(row[5])
+                next
+            else:
+                line = buildline(link, title, date, description, tags)
                 f.write(line)
-                pre_link = link
+
+                link = row[2]
+                date = row[1]
+                title = row[3]
+                description = row[4]
+                tags = set([row[5]])
+        
+        line = buildline(link, title, date, description, tags)
+        f.write(line)
+        f.write(footer)                 
+    
     # open in chrome
-    os.system('open -a Google\ Chrome index.md')
+    os.system('open -a Google\ Chrome index.html')
 
 def add(conn):
     '''
     add a record 
     '''
     c = conn.cursor()
-    with open('meta', 'r') as f:
-        l = f.readline()
-
+    c.execute('select count(*) from records')
+    l = c.__next__()[0]
     i = str(int(l) + 1)
 
     time = date.today().isoformat()
@@ -57,9 +92,6 @@ def add(conn):
     
     conn.commit()
 
-    with open('meta', 'w') as f:
-        f.write(i)
-    
     print("records added")
 
 def main():
@@ -71,7 +103,7 @@ def main():
     
     if sys.argv[1].upper() == 'ADD':
         add(conn)
-    elif sys.argv[1].upper() == 'DISPLAY':
+    elif sys.argv[1].upper() == 'SHOW':
         display(conn)
 
     conn.close()

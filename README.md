@@ -4,6 +4,8 @@ It works through Python script and sqlite database.
 
 ### Usage:
 
+`python3 init.py` : initiate the database
+
 `python3 shell.py add` : add a record.
 
 `sqlite3 bookmarkds.db` : enter database interactive mode.
