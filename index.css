@@ -1,0 +1,17 @@
+body {
+    font-family: Helvetica, arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #e8e8e8;
+    padding: 30px;
+    color: #333;
+}
+
+a {
+    color: #4183C4;
+    text-decoration: none;
+}
+
+

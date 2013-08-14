@@ -4,7 +4,7 @@ from datetime import date
 def display(conn):
     
     def buildline(link, title, date, description, tags):
-        line = '\n<p class="record">\n<a href="' + link + '">' + title + '</a>\n'
+        line = '\n<p class="record">\n<a href="' + link + '" target = "_blank">' + title + '</a>\n'
         line += date + '\n'
         for tag in tags:
             line += '[' + tag + '] '
@@ -17,6 +17,9 @@ def display(conn):
     head = '''
 <!DOCTYPE HTML>
 <html>
+<head>
+<link rel="stylesheet" type="text/css" href="index.css">
+</head>
 <body>
     '''
     
@@ -45,6 +48,7 @@ def display(conn):
     with open('index.html', 'w') as f:
         f.write(head)
         f.write("\nQuery: " + sql + '\n')
+        f.write("<hr />")
         for row in c:
             if row[2] == link: # same records
                 tags.add(row[5])
@@ -93,6 +97,8 @@ def add(conn):
     conn.commit()
 
     print("records added")
+
+
 
 def main():
     if len(sys.argv) < 2:

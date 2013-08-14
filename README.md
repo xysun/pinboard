@@ -2,16 +2,22 @@ This is my local 'pinterest' collection, a tag-based bookmark system using pytho
 
 It works through Python script and sqlite database.
 
+### Philosophy
+
+* Minimalist. 
+* Local, non-social. 
+
+    I don't need sync since I never read long articles on my phone. And all my development folders are Dropbox-ed. 
+
 ### Usage:
 
 `python3 init.py` : initiate the database
 
 `python3 shell.py add` : add a record.
 
-`sqlite3 bookmarkds.db` : enter database interactive mode.
+`python3 shell.py show` : generate `index.html` file and open in Chrome
 
-`python3 shell.py display` : generate `index.md` file. 
+You can always directly hack the database through `sqlite3 bookmarks.db`.
 
 
-
-Work in progress, more interactive scripts to be added. 
+Work in progress. 
