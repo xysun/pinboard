@@ -1,7 +1,5 @@
 This is my local 'pinterest' collection, a tag-based bookmark system using python and sqlite3. 
 
-It works through Python script and sqlite database.
-
 ![screenshot](screenshot.png?raw=true)
 
 ### Philosophy

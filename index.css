@@ -9,9 +9,12 @@ body {
     color: #333;
 }
 
-a {
+a.unread {
     color: #4183C4;
     text-decoration: none;
 }
 
-
+a.read{
+    color:#828282;
+    text-decoration:none;
+}

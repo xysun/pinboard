@@ -3,8 +3,11 @@ from datetime import date
 
 def display(conn):
     
-    def buildline(link, title, date, description, tags):
-        line = '\n<p class="record">\n<a href="' + link + '" target = "_blank">' + title + '</a>\n'
+    def buildline(link, title, date, description, tags, read):
+        if read == 0:
+            line = '\n<p>\n<a class="unread" href="' + link + '" target="_blank">' + title + '</a>\n'
+        elif read == 1:
+             line = '\n<p>\n<a class="read" href="' + link + '" target="_blank">' + title + '</a>\n'
         line += date + '\n'
         for tag in tags:
             line += '[' + tag + '] '
@@ -24,6 +27,7 @@ def display(conn):
     '''
     
     footer = '''
+</div>
 </body>
 </html>
     '''
@@ -44,17 +48,19 @@ def display(conn):
     title = fr[3]
     description  = fr[4]
     tags = set([fr[5]])
+    read = fr[6] 
 
     with open('index.html', 'w') as f:
         f.write(head)
         f.write("\nQuery: " + sql + '\n')
         f.write("<hr />")
+        f.write('<div class="record">')
         for row in c:
             if row[2] == link: # same records
                 tags.add(row[5])
                 next
             else:
-                line = buildline(link, title, date, description, tags)
+                line = buildline(link, title, date, description, tags, read)
                 f.write(line)
 
                 link = row[2]
@@ -62,8 +68,9 @@ def display(conn):
                 title = row[3]
                 description = row[4]
                 tags = set([row[5]])
+                read = row[6]
         
-        line = buildline(link, title, date, description, tags)
+        line = buildline(link, title, date, description, tags, read)
         f.write(line)
         f.write(footer)                 
     
