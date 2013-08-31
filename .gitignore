@@ -1,1 +1,4 @@
 *.swp
+api_secret*
+*.db
+__pycache__/

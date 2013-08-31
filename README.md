@@ -2,6 +2,8 @@ This is my local 'pinterest' collection, a tag-based bookmark system using pytho
 
 ![screenshot](screenshot.png?raw=true)
 
+* Read entries are marked gray.
+
 ### Philosophy
 
 * Minimalist. 
@@ -21,3 +23,8 @@ You can always directly hack the database through `sqlite3 bookmarks.db`.
 
 
 Work in progress. 
+
+### Useful linkes:
+
+* [Google maps documentation](https://developers.google.com/maps/documentation/javascript/tutorial)
+* [Google fusion documentation](https://developers.google.com/fusiontables/docs/v1/using)
